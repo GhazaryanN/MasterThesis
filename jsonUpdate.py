@@ -19,18 +19,18 @@ def updateJsonWifi(fileNameJson, lastWifiScan, currentTime):
 		for macScan in lastWifiScan:
 			newMac = 1
 			for d in data['wifi']:
-				if d['mac'] == macScan[3]:
+				if d['mac'] == macScan[2]:
 					newMac = 0;
 					if d['active'] == "false":
 						d['active'] = 'true'
-						d['sawAt'] += (currentTime.strftime(" - from %d-%m-%Y_%H:%M:%S")) + " with ip " + macScan[1]
+						d['sawAt'] += (currentTime.strftime(" - from %d-%m-%Y_%H:%M:%S")) + " with ip " + macScan[0]
 					else:
-						if d['currentIP'] != macScan[1]:
-							d['sawAt'] += " change ip to " + macScan[1]
+						if d['currentIP'] != macScan[0]:
+							d['sawAt'] += " change ip to " + macScan[0]
 			
 			if(newMac):
-				sawAt = currentTime.strftime("from %d-%m-%Y_%H:%M:%S") + " with ip " + macScan[1]
-				data['wifi'].append({'mac': macScan[3],'macName': macScan[4],'name': macScan[0],'active':'true','currentIP':macScan[1],'sawAt':sawAt})
+				sawAt = currentTime.strftime("from %d-%m-%Y_%H:%M:%S") + " with ip " + macScan[0]
+				data['wifi'].append({'mac': macScan[2],'macName': macScan[3],'active':'true','currentIP':macScan[0],'sawAt':sawAt})
 
 				#run_cmd("sudo nmap -O --osscan-guess " + macScan + " -oN temp.txt")
 
@@ -41,7 +41,7 @@ def updateJsonWifi(fileNameJson, lastWifiScan, currentTime):
 			seen = 0
 			if(d['active'] == 'true'):
 				for macScan in lastWifiScan:
-					if d['mac'] == macScan[3]:
+					if d['mac'] == macScan[2]:
 						seen = 1
 						break
 				if not seen:

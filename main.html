@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="refresh" content="5">
+	<title>Wifi map</title>
+
+	<script src="currentWifiDevices.js"></script>
+	<script src="currentBluetoothDevices.js"></script>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+
+
+
+<body>
+
+<h1>WiFi devices now</h1>
+<p id="wifi"></p>
+
+<h1>Bluetooth devices now</h1>
+<p id="bluetooth"></p>
+
+<h1>History</h1>
+<h2>Wifi</h2>
+<p id="historyWifi"></p>
+
+<h2>Bluetooth</h2>
+<p id="historyBluetooth"></p>
+
+<script>
+
+	$.getJSON("jsonData.json", function(json) {
+	    for (var i = 0; i < json.wifi.length; i++) {
+	    	document.getElementById('historyWifi').innerHTML += "Mac: " + json.wifi[i].mac + "<br>Mac name: " + json.wifi[i].macName + "<br>Name: " + json.wifi[i].name + "<br>Current ip: " + json.wifi[i].currentIP + "<br>";
+
+	    	var temp = json.wifi[i].sawAt.split(" - ");
+	    	for (var j = 0; j < temp.length; j++) {
+	    		if(temp[j].startsWith("from"))
+		    		document.getElementById('historyWifi').innerHTML += "<span style=\"color:Green;\">" + temp[j] + "</span> ";
+		    	else
+		    		document.getElementById('historyWifi').innerHTML += "<span style=\"color:Red;\">" + temp[j] + "</span><br>";
+	    	} 
+	    	document.getElementById('historyWifi').innerHTML += "<br><br>";
+	    }
+
+	    for (var i = 0; i < json.bluetooth.length; i++) {
+	    	document.getElementById('historyBluetooth').innerHTML += "Mac: " + json.bluetooth[i].mac + "<br>Name: " + json.bluetooth[i].name + "<br>";
+
+	    	var temp = json.bluetooth[i].sawAt.split(" - ");
+	    	for (var j = 0; j < temp.length; j++) {
+	    		if(temp[j].startsWith("from"))
+		    		document.getElementById('historyBluetooth').innerHTML += "<span style=\"color:Green;\">" + temp[j] + "</span> ";
+		    	else
+		    		document.getElementById('historyBluetooth').innerHTML += "<span style=\"color:Red;\">" + temp[j] + "</span><br>";
+	    	} 
+	    	document.getElementById('historyBluetooth').innerHTML += "<br><br>";
+	    }
+	});
+
+	if(wifiDevices.length > 0) {
+		for(var i = 0; i < wifiDevices.length; i++) {
+		    document.getElementById('wifi').innerHTML += wifiDevices[i] + "<br><br>";
+		}
+	}
+	else {
+		document.getElementById('wifi').innerHTML += "No WiFi device detected.<br><br>";
+	}
+
+	if(bluetoothDevices.length > 0) {
+		for(var i = 0; i < bluetoothDevices.length; i++) {
+			document.getElementById('bluetooth').innerHTML += bluetoothDevices[i] + "<br><br>";
+		}
+	}
+	else {
+		document.getElementById('bluetooth').innerHTML += "No bluetooth devices detected.<br><br>";
+	}
+
+
+</script>
+
+</body>
+</html>

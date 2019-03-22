@@ -22,14 +22,16 @@ def run_cmd(cmd):
 	return subprocess.check_output(cmd, shell=True).decode('utf-8') 
 
 
-
+# Definition to update the file of the current WiFi devices in the network
 def refreshCurrentWifiDevices(fileNameToRead, fileNameToWrite, currentTime):
 	ip = []
 	latency = []
 	mac = []
 
-	fileToRead = open(fileNameToRead + ".txt", "r")
+	# By reading the last scan report, extract only the important information and format them into a javascript file readable for the html file
 
+	fileToRead = open(fileNameToRead + ".txt", "r")
+	# Prepare the data in different lists
 	for line in fileToRead:
 		if line.startswith("Nmap scan report for "):
 			lineSplit = line.strip()
@@ -50,6 +52,7 @@ def refreshCurrentWifiDevices(fileNameToRead, fileNameToWrite, currentTime):
 
 	wifiDevices = []
 
+	# Write into the javascript file, and in the mean time prepare a list to give to the definition updateJsonWifi in order to later on update the json file
 	for i in range(len(ip)):
 		if i > 0:
 			fileToWrite.write(", \"")
@@ -78,12 +81,14 @@ def refreshCurrentWifiDevices(fileNameToRead, fileNameToWrite, currentTime):
 	jsonUpdate.updateJsonWifi(FILE_NAME_JSON, wifiDevices, currentTime)
 
 
-
+# Definition to update the file of the current Bluetooth devices in the network
 def refreshCurrentBluetoothDevices(fileNameToRead, fileNameToWrite):
 	devices = []
 
-	fileToRead = open(fileNameToRead + ".txt", "r")
+	# By reading the last scan report, extract only the important information and format them into a javascript file readable for the html file
 
+	fileToRead = open(fileNameToRead + ".txt", "r")
+	# Prepare the data in a list
 	for line in fileToRead:
 		if line.startswith(" "):
 			devices.append(line.strip())
@@ -91,6 +96,7 @@ def refreshCurrentBluetoothDevices(fileNameToRead, fileNameToWrite):
 	fileToWrite = open(fileNameToWrite + ".js", "w+")
 	fileToWrite.write("bluetoothDevices = [")
 
+	# Write into the javascript file
 	for i in range(len(devices)):
 		if i > 0:
 			fileToWrite.write(", \"")
@@ -105,9 +111,8 @@ def refreshCurrentBluetoothDevices(fileNameToRead, fileNameToWrite):
 	fileToWrite.close()
 
 
-
+# Definition to scan WiFi devices
 def scanWifi():
-	######### Scan WiFi
 	
 	# Get time and prepare nmap command
 	currentTime = datetime.datetime.now()
@@ -117,12 +122,13 @@ def scanWifi():
 	# Execute nmap and output the result in a file name with the corresponding time
 	print ("Performing WiFi inquiry...")
 	run_cmd(NMAP_CMD)
+
+	# Call the definition to update the javascript file containing the current WiFi devices detected and update the json file
 	refreshCurrentWifiDevices(fileName, FILE_NAME_CURRENT_WIFI_DEVICES, currentTime)
 
 
-
+# Definition to scan Bluetooth devices
 def scanBluetooth():
-	######### Scan Bluetooth
 
 	# Prepare filename
 	currentTime = datetime.datetime.now()
@@ -140,12 +146,14 @@ def scanBluetooth():
 		file.write(" " + addr + " - " + name + "\n")
 	file.close()
 
+	# Call the definition to update the javascript file containing the current WiFi devices detected and update the json file
 	refreshCurrentBluetoothDevices(fileName, FILE_NAME_CURRENT_BLUETOOTH_DEVICES)
 	jsonUpdate.updateJsonBluetooth(FILE_NAME_JSON, fileName, currentTime)
 
 
 
 
+# MAIN ALGORITHM START HERE
 
 # Create a folder logs
 try:
@@ -162,7 +170,7 @@ myIp[len(myIp)-1] = 0
 myIp = ".".join(str(x) for x in myIp)
 
 
-######### Scan
+# Start the scanning process
 while(1):
 
 	scanWifi()
@@ -173,7 +181,7 @@ while(1):
 	print("Pause...")
 	time.sleep(5)
 
-	# Non blocking input
+	# Close the program by entering 'q'
 	if(select.select([sys.stdin], [], [], 0) == ([sys.stdin], [], [])):
 		if(sys.stdin.read(1) == "q"):
 			jsonUpdate.closeProgram(FILE_NAME_JSON)

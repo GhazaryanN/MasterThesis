@@ -6,6 +6,7 @@
 	<meta http-equiv="refresh" content="5">
 	<title>Wifi map</title>
 
+	<!-- Include javascript files including the information about the last WiFi and Bluetooth devices scanned -->
 	<script src="currentWifiDevices.js"></script>
 	<script src="currentBluetoothDevices.js"></script>
 
@@ -15,6 +16,8 @@
 
 
 <body>
+
+<!-- HTML Part -->
 
 <h1>WiFi devices now</h1>
 <p id="wifi"></p>
@@ -29,9 +32,14 @@
 <h2>Bluetooth</h2>
 <p id="historyBluetooth"></p>
 
+
+<!-- Javascript part -->
+
 <script>
 
+	// Open the json file
 	$.getJSON("jsonData.json", function(json) {
+		// Each wifi devices included in the json file are added into the html file
 	    for (var i = 0; i < json.wifi.length; i++) {
 	    	document.getElementById('historyWifi').innerHTML += "Mac: " + json.wifi[i].mac + "<br>Mac name: " + json.wifi[i].macName + "<br>Name: " + json.wifi[i].name + "<br>Current ip: " + json.wifi[i].currentIP + "<br>";
 
@@ -45,6 +53,7 @@
 	    	document.getElementById('historyWifi').innerHTML += "<br><br>";
 	    }
 
+	    // Each bluetooth devices included in the json file are added into the html file
 	    for (var i = 0; i < json.bluetooth.length; i++) {
 	    	document.getElementById('historyBluetooth').innerHTML += "Mac: " + json.bluetooth[i].mac + "<br>Name: " + json.bluetooth[i].name + "<br>";
 
@@ -59,6 +68,7 @@
 	    }
 	});
 
+	// Display in the html file the current WiFi devices in the network
 	if(wifiDevices.length > 0) {
 		for(var i = 0; i < wifiDevices.length; i++) {
 		    document.getElementById('wifi').innerHTML += wifiDevices[i] + "<br><br>";
@@ -68,6 +78,7 @@
 		document.getElementById('wifi').innerHTML += "No WiFi device detected.<br><br>";
 	}
 
+	// Display in the html file the current Bluetooth devices surrounding the device
 	if(bluetoothDevices.length > 0) {
 		for(var i = 0; i < bluetoothDevices.length; i++) {
 			document.getElementById('bluetooth').innerHTML += bluetoothDevices[i] + "<br><br>";

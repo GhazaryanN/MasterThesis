@@ -27,29 +27,29 @@ def updateJsonWifi(fileNameJson, lastWifiScan, currentTime):
 			for d in data['wifi']:
 
 				# the device scanned during the last scan has already been met before
-				if d['mac'] == macScan[2]:
+				if d['mac'] == macScan[3]:
 					newMac = 0;
 
 					# if it was not currently active, then it is now active and a new time of meeting is created
 					if d['active'] == "false":
 						d['active'] = 'true'
-						d['sawAt'] += (currentTime.strftime(" - from %d-%m-%Y_%H:%M:%S")) + " with ip " + macScan[0]
+						d['sawAt'] += (currentTime.strftime(" - from %d-%m-%Y_%H:%M:%S")) + " with ip " + macScan[1]
 					# if it was currently active, then its current ip is compare to the ip it has the previous time, if it changed, it is updated in the data
 					else:
-						if d['currentIP'] != macScan[0]:
-							d['sawAt'] += " change ip to " + macScan[0]
+						if d['currentIP'] != macScan[1]:
+							d['sawAt'] += " change ip to " + macScan[1]
 			
 			# the device scanned during the last scan has never been met before, it is consequently added
 			if(newMac):
-				sawAt = currentTime.strftime("from %d-%m-%Y_%H:%M:%S") + " with ip " + macScan[0]
-				data['wifi'].append({'mac': macScan[2],'macName': macScan[3],'active':'true','currentIP':macScan[0],'sawAt':sawAt})
+				sawAt = currentTime.strftime("from %d-%m-%Y_%H:%M:%S") + " with ip " + macScan[1]
+				data['wifi'].append({'mac': macScan[3],'macName': macScan[4],'active':'true','currentIP':macScan[1],'sawAt':sawAt,'name':macScan[0]})
 
 		# look at all the wifi data to put inactive the wifi that was active but did not meet this time
 		for d in data['wifi']:
 			seen = 0
 			if(d['active'] == 'true'):
 				for macScan in lastWifiScan:
-					if d['mac'] == macScan[2]:
+					if d['mac'] == macScan[3]:
 						seen = 1
 						break
 				if not seen:

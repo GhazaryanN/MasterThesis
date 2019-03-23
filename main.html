@@ -6,6 +6,8 @@
 	<meta http-equiv="refresh" content="5">
 	<title>Wifi map</title>
 
+	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
 	<!-- Include javascript files including the information about the last WiFi and Bluetooth devices scanned -->
 	<script src="currentWifiDevices.js"></script>
 	<script src="currentBluetoothDevices.js"></script>
@@ -19,18 +21,50 @@
 
 <!-- HTML Part -->
 
-<h1>WiFi devices now</h1>
-<p id="wifi"></p>
+<header class="w3-container w3-center w3-padding-32"> 
+  <h1><b>Master Thesis - Security Supervision for IoT</b></h1>
+</header>
 
-<h1>Bluetooth devices now</h1>
-<p id="bluetooth"></p>
 
-<h1>History</h1>
-<h2>Wifi</h2>
-<p id="historyWifi"></p>
+<div class="w3-main w3-content w3-padding" style="max-width:1200px;margin-top:10px">
 
-<h2>Bluetooth</h2>
-<p id="historyBluetooth"></p>
+	<div class="w3-row">
+
+		<div class="w3-half w3-container w3-padding-16">
+			<h2>WiFi devices now</h2>
+			<p id="wifi"></p>
+		</div>
+
+		<div class="w3-half w3-container w3-padding-16">
+			<h2>Bluetooth devices now</h2>
+			<p id="bluetooth"></p>
+		</div>
+
+	</div>
+
+</div>
+
+
+<h2 class="w3-container w3-center w3-padding-32">History</h2>
+
+<div class="w3-main w3-content w3-padding" style="max-width:1200px;margin-top:10px">
+
+	<div class="w3-row">
+
+		<div class="w3-half w3-container w3-padding-16">
+			<h3>Wifi</h3>
+			<p id="historyWifi"></p>
+		</div>
+
+		<div class="w3-half w3-container w3-padding-16">
+			<h3>Bluetooth</h3>
+			<p id="historyBluetooth"></p>
+		</div>
+
+	</div>
+
+</div>
+
 
 
 <!-- Javascript part -->

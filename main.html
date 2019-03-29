@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="utf-8">
-	<meta http-equiv="refresh" content="5">
+	<!--  <meta http-equiv="refresh" content="5"> -->
 	<title>Wifi map</title>
 
 	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
@@ -15,8 +15,38 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 </head>
 
+<style>
 
+body {
+  background-image: url("2.gif");
+  background-repeat: no-repeat;
+  background-size: cover;
+  text-shadow: 2px 2px #000000;
+  
+}
 
+h1{
+	color:#ffffff;
+}
+
+h2, h3{
+  	color:#ff8080;
+}
+
+h2 {
+	font-size:30px;
+}
+
+h3 {
+	font-size:25px;
+}
+
+p{
+	color:#b3ffff;
+	font-size:20px;
+}
+
+</style>
 <body>
 
 <!-- HTML Part -->
@@ -29,7 +59,6 @@
 <div class="w3-main w3-content w3-padding" style="max-width:1200px;margin-top:10px">
 
 	<div class="w3-row">
-
 		<div class="w3-half w3-container w3-padding-16">
 			<h2>WiFi devices now</h2>
 			<p id="wifi"></p>
@@ -66,23 +95,20 @@
 </div>
 
 
-
 <!-- Javascript part -->
-
 <script>
-
 	// Open the json file
 	$.getJSON("jsonData.json", function(json) {
 		// Each wifi devices included in the json file are added into the html file
+
 	    for (var i = 0; i < json.wifi.length; i++) {
 	    	document.getElementById('historyWifi').innerHTML += "Mac: " + json.wifi[i].mac + "<br>Mac name: " + json.wifi[i].macName + "<br>Name: " + json.wifi[i].name + "<br>Current ip: " + json.wifi[i].currentIP + "<br>";
-
 	    	var temp = json.wifi[i].sawAt.split(" - ");
 	    	for (var j = 0; j < temp.length; j++) {
 	    		if(temp[j].startsWith("from"))
-		    		document.getElementById('historyWifi').innerHTML += "<span style=\"color:Green;\">" + temp[j] + "</span> ";
+		    		document.getElementById('historyWifi').innerHTML += "<span style=\"color:#00ff00;\">" + temp[j] + "</span> ";
 		    	else
-		    		document.getElementById('historyWifi').innerHTML += "<span style=\"color:Red;\">" + temp[j] + "</span><br>";
+		    		document.getElementById('historyWifi').innerHTML += "<span style=\"color:#ff1300;\">" + temp[j] + "</span><br>";
 	    	} 
 	    	document.getElementById('historyWifi').innerHTML += "<br><br>";
 	    }
@@ -94,9 +120,9 @@
 	    	var temp = json.bluetooth[i].sawAt.split(" - ");
 	    	for (var j = 0; j < temp.length; j++) {
 	    		if(temp[j].startsWith("from"))
-		    		document.getElementById('historyBluetooth').innerHTML += "<span style=\"color:Green;\">" + temp[j] + "</span> ";
+		    		document.getElementById('historyBluetooth').innerHTML += "<span style=\"color:#00ff00;\">" + temp[j] + "</span> ";
 		    	else
-		    		document.getElementById('historyBluetooth').innerHTML += "<span style=\"color:Red;\">" + temp[j] + "</span><br>";
+		    		document.getElementById('historyBluetooth').innerHTML += "<span style=\"color: #ff1300;\">" + temp[j] + "</span><br>";
 	    	} 
 	    	document.getElementById('historyBluetooth').innerHTML += "<br><br>";
 	    }
@@ -124,6 +150,5 @@
 
 
 </script>
-
 </body>
 </html>

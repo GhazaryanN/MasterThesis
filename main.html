@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="utf-8">
-	<!--  <meta http-equiv="refresh" content="5"> -->
+	<meta http-equiv="refresh" content="10">
 	<title>Wifi map</title>
 
 	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
@@ -102,7 +102,7 @@ p{
 		// Each wifi devices included in the json file are added into the html file
 
 	    for (var i = 0; i < json.wifi.length; i++) {
-	    	document.getElementById('historyWifi').innerHTML += "Mac: " + json.wifi[i].mac + "<br>Mac name: " + json.wifi[i].macName + "<br>Name: " + json.wifi[i].name + "<br>Current ip: " + json.wifi[i].currentIP + "<br>";
+	    	document.getElementById('historyWifi').innerHTML += "Mac: " + json.wifi[i].mac + "<br>Name: " + json.wifi[i].name + "<br>Current ip: " + json.wifi[i].currentIP + "<br>";
 	    	var temp = json.wifi[i].sawAt.split(" - ");
 	    	for (var j = 0; j < temp.length; j++) {
 	    		if(temp[j].startsWith("from"))
